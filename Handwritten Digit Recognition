@@ -1,0 +1,83 @@
+# Title of Project
+**Handwritten Digit Recognition with Random Forest Classifier**
+
+# Objective
+The objective of this project is to build a machine learning model using the Random Forest Classifier to recognize handwritten digits. The model will be trained on the MNIST dataset.
+
+# Data Source
+The data used in this project is sourced from the MNIST dataset, which is commonly used for handwritten digit recognition.
+
+# Import Library
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+
+# Import Data
+
+# Load the MNIST dataset
+df = load_digits()
+
+
+# Describe Data
+
+# Display basic information about the dataset
+print(df.images.shape)
+print(df.images[0].shape)
+print(len(df.images))
+
+
+# Data Visualization
+
+# Visualize a few sample images from the dataset
+_, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
+for ax, image, label in zip(axes, df.images, df.target):
+    ax.set_axis_off()
+    ax.imshow(image, cmap=plt.cm.gray_r, interpolation="nearest")
+    ax.set_title("training: %i" % label)
+plt.show()
+
+# Data Preprocessing
+
+# Reshape the data and normalize pixel values
+data = df.images.reshape((len(df.images), -1))
+data = data / 16
+
+# Define Target Variable (y) and Feature Variables (X)
+
+# Specify the target variable and feature variables
+X = data
+y = df.target
+
+# Train Test Split
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+
+# Modeling
+
+# Choose and train a machine learning model (Random Forest Classifier)
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+
+# Model Evaluation
+
+# Evaluate the model using confusion matrix and classification report
+y_pred = rf.predict(X_test)
+conf_matrix = confusion_matrix(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
+print(f'Confusion Matrix:\n{conf_matrix}\n')
+print(f'Classification Report:\n{classification_rep}')
+
+# Prediction
+
+# Make predictions on new data (X_test)
+y_pred = rf.predict(X_test)
+
+# Explanation
+The Random Forest Classifier was trained on the MNIST dataset for handwritten digit recognition. The model's performance was evaluated using a confusion matrix and a classification report, providing insights into its accuracy and performance for each digit class. The project aims to showcase the effectiveness of the Random Forest algorithm for recognizing handwritten digits. Further improvements and optimizations can be explored for enhancing the model's accuracy.
